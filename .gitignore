@@ -84,4 +84,4 @@ yarn-error.log
 *.log
 
 ## Secrets / Local config
-appsettings.Local.json
+appsettings.json
