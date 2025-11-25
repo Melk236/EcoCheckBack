@@ -1,0 +1,87 @@
+## Build Folders
+bin/
+obj/
+
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Rider
+.idea/
+
+## Rider caches
+.idea/
+*.iml
+*.iws
+
+## NuGet
+*.nupkg
+# The packages folder can be ignored because of PackageReference
+**/packages/*
+!**/packages/build/
+
+# NuGet v3's project.json files
+project.lock.json
+project.fragment.lock.json
+
+## VS Code
+.vscode/
+
+## ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+## IIS
+*.vspscc
+
+## Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+## TFS
+$tf/
+
+## DotCover
+*.dotCover
+
+## ReSharper
+_ReSharper*/
+*.DotSettings.user
+
+## Rider
+.idea/
+
+## User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Windows thumbnail cache
+Thumbs.db
+ehthumbs.db
+
+## OS generated files
+.DS_Store
+Desktop.ini
+
+## Entity Framework
+*.edmx.diagram
+*.edmx.sql
+*.edmx.history
+
+## Node/npm if you have frontend
+node_modules/
+npm-debug.log
+yarn-error.log
+
+## Logs
+*.log
+
+## Secrets / Local config
+appsettings.Local.json
