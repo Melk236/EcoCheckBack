@@ -4,6 +4,7 @@ using EcoCheck.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcoCheck.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251128173958_CamposNoObligatorios")]
+    partial class CamposNoObligatorios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,12 +112,6 @@ namespace EcoCheck.Migrations
                     b.Property<string>("Certificaciones")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Controversias")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("EmpresaMatriz")
                         .HasColumnType("longtext");
 
@@ -127,6 +124,12 @@ namespace EcoCheck.Migrations
 
                     b.Property<string>("PaisSede")
                         .HasColumnType("longtext");
+
+                    b.Property<float?>("PuntuacionAmbiental")
+                        .HasColumnType("float");
+
+                    b.Property<float?>("PuntuacionGobernanza")
+                        .HasColumnType("float");
 
                     b.Property<float?>("PuntuacionSocial")
                         .HasColumnType("float");
@@ -154,11 +157,15 @@ namespace EcoCheck.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Origen")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<float>("Porcentaje")
+                        .HasColumnType("float");
+
                     b.Property<int>("ProductoId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("Reciclable")
-                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 

@@ -25,6 +25,20 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
     options.Password.RequireLowercase = false;
 }).AddEntityFrameworkStores<AppDbContext>();
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+// 1. Registrar CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:4200")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowCredentials();
+        });
+});
 
 builder.Services.AddControllers();
 
@@ -34,6 +48,8 @@ builder.Services.AddScoped<ProductoService>();
 builder.Services.AddScoped<MarcaService>();
 builder.Services.AddScoped<MaterialService>();
 builder.Services.AddScoped<PuntuacionService>();
+// Registrar HttpClient
+builder.Services.AddHttpClient();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -46,6 +62,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

@@ -41,7 +41,7 @@ namespace EcoCheck.Services
            
             for(int i = 0;i<dto.Length;i++)
             {
-                if (String.IsNullOrEmpty(dto[i].Nombre) || String.IsNullOrEmpty(dto[i].Origen) || dto[i].ImpactoCarbono<=0 || dto[i].ProductoId<=0)
+                if (String.IsNullOrEmpty(dto[i].Nombre)  || dto[i].ImpactoCarbono<=0 || dto[i].ProductoId<=0)
                 {
                     throw new BadRequestException("Uno o más campos no son válidos");
                 }

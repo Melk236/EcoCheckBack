@@ -45,7 +45,12 @@ namespace EcoCheck.Services
             {
                 throw new BadRequestException("Uno o más campos están vacíos");
             }
+            var marcaEncontrada = await _context.Marcas.AnyAsync(x=>x.Nombre==dto.Nombre);//Buscamos si ya existe una empresa con ese nombre
 
+            if (marcaEncontrada)
+            {
+                throw new BadRequestException("Ya existe esta empresa en la base de datos");
+            }
             var marca=_mapper.Map<Marca>(dto);
 
             _context.Marcas.Add(marca);
