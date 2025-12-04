@@ -1,4 +1,5 @@
 using EcoCheck.Data;
+using EcoCheck.Data.Seeders;
 using EcoCheck.Middlewares;
 using EcoCheck.Models;
 using EcoCheck.Services;
@@ -25,6 +26,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
     options.Password.RequireLowercase = false;
 }).AddEntityFrameworkStores<AppDbContext>();
 
+
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 // 1. Registrar CORS
@@ -48,6 +50,7 @@ builder.Services.AddScoped<ProductoService>();
 builder.Services.AddScoped<MarcaService>();
 builder.Services.AddScoped<MaterialService>();
 builder.Services.AddScoped<PuntuacionService>();
+builder.Services.AddTransient<MarcaSeeder>();
 // Registrar HttpClient
 builder.Services.AddHttpClient();
 builder.Services.AddEndpointsApiExplorer();
@@ -72,5 +75,12 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<MarcaSeeder>();
+
+    await seeder.SeedMarcas();
+}
 
 app.Run();

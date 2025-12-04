@@ -9,7 +9,7 @@
         public string? SitioWeb { get; set; }
         public string? Certificaciones { get; set; }
         public float PuntuacionSocial { get; set; }
-        public string Descripcion { get; set; }
+        public string? Descripcion { get; set; }
        
     }
 }

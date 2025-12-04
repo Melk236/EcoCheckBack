@@ -10,8 +10,7 @@
         public string? SitioWeb { get; set; }
         public string? Certificaciones { get; set; }
         public float PuntuacionSocial { get; set; }
-        public float PuntuacionAmbiental { get; set; }
-        public float PuntuacionGobernanza { get; set; }
+        public string? Descripcion { get; set; }
         public DateTime FechaActualizacion { get; set; }
     }
 }
