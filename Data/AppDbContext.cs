@@ -15,6 +15,8 @@ namespace EcoCheck.Data
         public DbSet<Puntuacion> Puntuacion { get; set; }
         public DbSet<Marca> Marcas { get; set; }
         public DbSet<Certificacion> Certificaciones { get; set; }
+        public DbSet<EmpresaCertificacion> EmpresaCertificacion {  get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
