@@ -32,7 +32,7 @@ namespace EcoCheck.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateCertificacionDto[] dto)
+        public async Task<IActionResult> Create([FromBody] CreateCertificacionDto[] dto)
         {
 
             var certficaciones = await _certificacionService.CreateCerticacion(dto);
