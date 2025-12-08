@@ -11,7 +11,7 @@ namespace EcoCheck.Models
         public float Valor { get; set; }
         public float ValorAmbiental { get; set; }
         public float ValorSocial { get; set; }
-        public float Gobernanza { get; set; }
+        
 
     }
 }

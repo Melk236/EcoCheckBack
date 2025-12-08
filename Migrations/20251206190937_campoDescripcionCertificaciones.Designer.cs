@@ -4,6 +4,7 @@ using EcoCheck.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcoCheck.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251206190937_campoDescripcionCertificaciones")]
+    partial class campoDescripcionCertificaciones
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,6 +152,9 @@ namespace EcoCheck.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Certificaciones")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Controversias")
                         .HasColumnType("longtext");
 
@@ -265,6 +271,9 @@ namespace EcoCheck.Migrations
 
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<float>("Gobernanza")
+                        .HasColumnType("float");
 
                     b.Property<int>("ProductoId")
                         .HasColumnType("int");

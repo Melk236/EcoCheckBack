@@ -40,7 +40,7 @@ namespace EcoCheck.Services
 
         public async Task<PuntuacionDto> CrearPuntuacion(CreatePuntuacionDto dto)
         {
-            if (dto.ProductoId<=0 || dto.Gobernanza<=0 || dto.ValorSocial<=0 || dto.ValorAmbiental<=0 || dto.Valor<=0)
+            if (dto.ProductoId<=0  || dto.ValorSocial<=0 || dto.ValorAmbiental<=0 || dto.Valor<=0)
             {
                 throw new BadRequestException("Uno o más campos son inválidos");
             }

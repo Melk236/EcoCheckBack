@@ -6,6 +6,7 @@ using EcoCheck.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -50,9 +51,15 @@ builder.Services.AddScoped<ProductoService>();
 builder.Services.AddScoped<MarcaService>();
 builder.Services.AddScoped<MaterialService>();
 builder.Services.AddScoped<PuntuacionService>();
+builder.Services.AddScoped<CertificacionService>();
+builder.Services.AddScoped<EmpresaCertificacionService>();
 builder.Services.AddTransient<MarcaSeeder>();
+builder.Services.AddTransient<CertificacionSeeder>();
+builder.Services.AddTransient<EmpresaCertificacionSeeder>();
+
 // Registrar HttpClient
 builder.Services.AddHttpClient();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -76,11 +83,15 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-using (var scope = app.Services.CreateScope())
+using (var scope = app.Services.CreateScope())//Creamos los datos iniciales de las tablas de la bd con los dataseeders correspondientes
 {
-    var seeder = scope.ServiceProvider.GetRequiredService<MarcaSeeder>();
+    var marcaSeeder = scope.ServiceProvider.GetRequiredService<MarcaSeeder>();
+    var certificacionSeeder = scope.ServiceProvider.GetRequiredService<CertificacionSeeder>();
+    var empresaCertificacionSeeder = scope.ServiceProvider.GetRequiredService<EmpresaCertificacionSeeder>();
 
-    await seeder.SeedMarcas();
+    await marcaSeeder.SeedMarcas();
+    await certificacionSeeder.SeedCertificaciones();
+    await empresaCertificacionSeeder.seedEmpresaCertificacion();
 }
 
 app.Run();
