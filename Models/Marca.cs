@@ -7,7 +7,7 @@ namespace EcoCheck.Models
     {
         [Key]
         public int Id { get; set; }
-        public string Nombre { get; set; }
+        public string Nombre { get; set; } 
         public string? EmpresaMatriz { get; set; }
         public string? PaisSede { get; set; }
         public string? SitioWeb { get; set; }

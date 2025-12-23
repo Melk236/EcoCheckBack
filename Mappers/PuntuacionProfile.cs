@@ -11,8 +11,8 @@ namespace EcoCheck.Mappers
         public PuntuacionProfile()
         {
             CreateMap<Puntuacion,PuntuacionDto>();
-            CreateMap<CreateProductoDto, Puntuacion>();
-            CreateMap<UpdateProductoDto, Puntuacion>();
+            CreateMap<CreatePuntuacionDto, Puntuacion>();
+            CreateMap<UpdatePuntuacionDto, Puntuacion>();
         }
     }
 }
