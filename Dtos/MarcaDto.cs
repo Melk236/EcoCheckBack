@@ -12,6 +12,7 @@
         public float PuntuacionSocial { get; set; }
         public string? Descripcion { get; set; }
         public string? Controversias { get; set; }
+        public string? Logo { get; set; }
         public DateTime FechaActualizacion { get; set; }
     }
 }
