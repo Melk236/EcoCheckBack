@@ -3,12 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoCheck", "EcoCheck.csproj", "{F08297CB-FEC1-4DAA-99D0-A4C829C5FB62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoCheck.API", "EcoCheck.API\EcoCheck.API.csproj", "{F08297CB-FEC1-4DAA-99D0-A4C829C5FB62}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución", "Elementos de la solución", "{D107F4C8-89CC-BEA8-D3D7-CA6B7733353D}"
-	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoCheck.Domain", "EcoCheck.Domain\EcoCheck.Domain.csproj", "{52C88BE6-7BD3-42D3-BA22-BF044EB5C2C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoCheck.Application", "EcoCheck.Application\EcoCheck.Application.csproj", "{DA9F0038-AF7F-495C-B764-8101A6F049B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoCheck.Infrastructure", "EcoCheck.Infrastructure\EcoCheck.Infrastructure.csproj", "{2F135D35-96D9-42C1-AABB-1CC765C4DACC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +21,18 @@ Global
 		{F08297CB-FEC1-4DAA-99D0-A4C829C5FB62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F08297CB-FEC1-4DAA-99D0-A4C829C5FB62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F08297CB-FEC1-4DAA-99D0-A4C829C5FB62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52C88BE6-7BD3-42D3-BA22-BF044EB5C2C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52C88BE6-7BD3-42D3-BA22-BF044EB5C2C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52C88BE6-7BD3-42D3-BA22-BF044EB5C2C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52C88BE6-7BD3-42D3-BA22-BF044EB5C2C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA9F0038-AF7F-495C-B764-8101A6F049B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA9F0038-AF7F-495C-B764-8101A6F049B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA9F0038-AF7F-495C-B764-8101A6F049B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA9F0038-AF7F-495C-B764-8101A6F049B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F135D35-96D9-42C1-AABB-1CC765C4DACC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F135D35-96D9-42C1-AABB-1CC765C4DACC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F135D35-96D9-42C1-AABB-1CC765C4DACC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F135D35-96D9-42C1-AABB-1CC765C4DACC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
