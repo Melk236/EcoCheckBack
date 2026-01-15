@@ -68,7 +68,7 @@ namespace EcoCheck.Application.Services
 
         public async Task<EmpresaCertificacionDto> Update(int id,UpdateEmpresaCertificacionDto dto)
         {
-            var empresaCertificacion=await _context.EmpresaCertificacion.FindAsync(id);
+            var empresaCertificacion = await _repository.GetById(id);
 
             if (empresaCertificacion==null)
             {
@@ -77,23 +77,23 @@ namespace EcoCheck.Application.Services
 
             _mapper.Map(dto, empresaCertificacion);
 
-            await _context.SaveChangesAsync();
+            await _repository.Update(empresaCertificacion);
 
             return _mapper.Map<EmpresaCertificacionDto>(empresaCertificacion);
         }
 
         public async Task Delete(int id)
         {
-            var empresaCertificacion = await _context.EmpresaCertificacion.FindAsync(id);
+            var empresaCertificacion = await _repository.GetById(id);
 
             if (empresaCertificacion == null)
             {
                 throw new NotFoundException("No se ha encontrado la relación empresa-certificación con el id " + id);
             }
 
-            _context.EmpresaCertificacion.Remove(empresaCertificacion);
+            
 
-            await _context.SaveChangesAsync();
+            await _repository.Delete(empresaCertificacion);
         }
 
     }

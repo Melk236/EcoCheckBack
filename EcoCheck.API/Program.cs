@@ -59,8 +59,8 @@ builder.Services.AddScoped<ICertificacionService,CertificacionService>();
 builder.Services.AddScoped<IEmpresaCertificacionService,EmpresaCertificacionService>();
 
 //Repositorios
-builder.Services.AddScoped<IRepository<Marca>, GenericRepository<Marca>>();
-builder.Services.AddScoped<IRepository<Productos>, GenericRepository<Productos>>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+
 
 
 //Inyección de dependencias Data Seeders
