@@ -7,23 +7,27 @@ using EcoCheck.Application.Dtos.CreateDtos;
 using EcoCheck.Domain.Entities;
 using EcoCheck.Application.Dtos.UpdateDtos;
 using EcoCheck.Application.Interfaces;
+using EcoCheck.Domain.Interfaces;
 
 namespace EcoCheck.Application.Services
 {
     public class MaterialService:IMaterialService
     {
-        private readonly AppDbContext _context;
+        
+        private readonly IRepository<Material> _repository;
         private readonly IMapper _mapper;
-        public MaterialService(AppDbContext context,IMapper mapper)
+
+        public MaterialService(IMapper mapper,IRepository<Material> repository)
         {
-            _context = context;
+            
+            _repository = repository;
             _mapper = mapper;
         }
 
 
         public async Task<List<MaterialDto>> GetAllMaterial()
         {
-            var materiales = await _context.Material.ToListAsync();
+            var materiales = await _repository.GetAll().ToListAsync();
 
             return _mapper.Map<List<MaterialDto>>(materiales);
 
@@ -31,7 +35,7 @@ namespace EcoCheck.Application.Services
 
         public async Task<List<MaterialDto>> GetMaterialById(int id)//Este id es el del producto para traernos aquellos materiales que pertenecen al producto en concreto
         {
-            var materiales=await _context.Material.Where(x=>x.ProductoId==id).ToListAsync();//Nos traemos los materiales especificos del producto
+            var materiales=await _repository.GetAll().Where(x=>x.ProductoId==id).ToListAsync();//Nos traemos los materiales especificos del producto
 
             return _mapper.Map<List<MaterialDto>>(materiales);
         }
@@ -52,8 +56,8 @@ namespace EcoCheck.Application.Services
             }
             //Si no hay un error agregamos todos los materiales de golpe.
             var materiales = _mapper.Map<List<Material>>(dto);
-            _context.Material.AddRange(materiales);
-            await _context.SaveChangesAsync();
+            
+            await _repository.CreateRange(materiales);
 
 
 
@@ -62,7 +66,7 @@ namespace EcoCheck.Application.Services
         }
         public async Task<MaterialDto> ActualizarMaterial(int id,UpdateMaterialDto dto)
         {
-           var material=await _context.Material.FindAsync(id);
+            var material = await _repository.GetById(id);
 
            if(material == null)
             {
@@ -71,7 +75,7 @@ namespace EcoCheck.Application.Services
 
            _mapper.Map(dto,material);
 
-            await _context.SaveChangesAsync();
+            await _repository.Update(material);
 
 
            return _mapper.Map<MaterialDto>(material);
@@ -79,16 +83,16 @@ namespace EcoCheck.Application.Services
 
         public async Task EliminarMaterial(int id)
         {
-            var material = await _context.Material.FindAsync(id);
+            var material = await _repository.GetById(id);
 
             if (material==null)
             {
                 throw new NotFoundException("No se ha encontrado el material con el id "+id);
             }
 
-            _context.Material.Remove(material);
+            
 
-            await _context.SaveChangesAsync();
+            await _repository.Delete(material);
 
 
         }

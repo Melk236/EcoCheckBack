@@ -11,12 +11,12 @@ namespace EcoCheck.Application.Services
 {
     public class CertificacionService:ICertificacionService
     {
-        private readonly AppDbContext _context;
+       
         private readonly IRepository<Certificacion> _repository;
         private readonly IMapper _mapper;
         public CertificacionService(AppDbContext context,IMapper mapper,IRepository<Certificacion> repository)
         {   
-            _context = context;
+          
             _repository = repository;
             _mapper = mapper;
         }

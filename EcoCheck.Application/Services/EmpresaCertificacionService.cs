@@ -7,29 +7,32 @@ using EcoCheck.Application.Dtos.CreateDtos;
 using EcoCheck.Domain.Entities;
 using EcoCheck.Application.Dtos.UpdateDtos;
 using EcoCheck.Application.Interfaces;
+using EcoCheck.Domain.Interfaces;
 namespace EcoCheck.Application.Services
 {
     public class EmpresaCertificacionService:IEmpresaCertificacionService
     {
-        public readonly AppDbContext _context;
-        public readonly IMapper _mapper;
-        public EmpresaCertificacionService(AppDbContext context,IMapper mapper)
+        private readonly AppDbContext _context;
+        private readonly IRepository<EmpresaCertificacion> _repository;
+        private readonly IMapper _mapper;
+        public EmpresaCertificacionService(AppDbContext context,IMapper mapper,IRepository<EmpresaCertificacion> repository)
         {
             _context = context;
+            _repository = repository;
             _mapper = mapper;
         }
 
         public async Task<List<EmpresaCertificacionDto>> GetAll()
         {
-            var empresaCertificaciones = await _context.EmpresaCertificacion.ToListAsync();
+            var empresaCertificaciones = await _repository.GetAll().ToListAsync();
 
             return _mapper.Map<List<EmpresaCertificacionDto>>(empresaCertificaciones);
 
         }
 
-        public async Task<List<EmpresaCertificacionDto>> GetById(int id)//Este que le llega es de la empresa para luego traernos las certificaciones adecuadas.
+        public async Task<List<EmpresaCertificacionDto>> GetById(int id)//Este id que le llega es de la empresa para luego traernos las certificaciones adecuadas.
         {
-            var empresaCertificaciones = await _context.EmpresaCertificacion.Where(x => x.MarcaId == id).ToListAsync();
+            var empresaCertificaciones = await _repository.GetAll().Where(x => x.MarcaId == id).ToListAsync();
 
             if (empresaCertificaciones == null)
             {
@@ -56,8 +59,8 @@ namespace EcoCheck.Application.Services
 
              var empresasCertificaciones=_mapper.Map<List<EmpresaCertificacion>>(dto);
 
-            _context.EmpresaCertificacion.AddRange(empresasCertificaciones);
-            await _context.SaveChangesAsync();
+
+            await _repository.CreateRange(empresasCertificaciones);
 
             return _mapper.Map<List<EmpresaCertificacionDto>>(empresasCertificaciones);
 

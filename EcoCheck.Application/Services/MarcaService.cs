@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using EcoCheck.Infrastructure.Data;
+
 using EcoCheck.Application.Dtos;
 using Microsoft.EntityFrameworkCore;
 using EcoCheck.Domain.Exceptions;
