@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using EcoCheck.Application.Interfaces;
 using EcoCheck.Domain.Interfaces;
 using EcoCheck.Infrastructure.Repositories;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,7 +37,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-// 1. Registrar CORS
+// 2. Registrar CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
@@ -46,6 +49,24 @@ builder.Services.AddCors(options =>
                    .AllowCredentials();
         });
 });
+// Leer config
+var jwtSettings = builder.Configuration.GetSection("Jwt");
+var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtSettings["Issuer"],
+            ValidAudience = jwtSettings["Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(key)
+        };
+    });
 
 builder.Services.AddControllers();
 
@@ -57,10 +78,12 @@ builder.Services.AddScoped<IMaterialService,MaterialService>();
 builder.Services.AddScoped<IPuntuacionService,PuntuacionService>();
 builder.Services.AddScoped<ICertificacionService,CertificacionService>();
 builder.Services.AddScoped<IEmpresaCertificacionService,EmpresaCertificacionService>();
+builder.Services.AddScoped<IAuthService,AuthService>();
+builder.Services.AddSingleton<IJwtService, JwtService>();
 
 //Repositorios
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
-
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 
 //Inyección de dependencias Data Seeders
@@ -89,7 +112,7 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

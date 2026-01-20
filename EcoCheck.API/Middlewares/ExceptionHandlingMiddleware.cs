@@ -57,6 +57,10 @@ namespace EcoCheck.Middlewares
                     context.Response.StatusCode = StatusCodes.Status403Forbidden;
                     _logger.LogWarning(exception, "Acceso prohibido");
                     break;
+                case ConflictException:
+                    context.Response.StatusCode=StatusCodes.Status409Conflict;
+                    _logger.LogWarning(exception, "Usuario duplicado");
+                    break;
 
                 default:
                     context.Response.StatusCode = StatusCodes.Status500InternalServerError;
