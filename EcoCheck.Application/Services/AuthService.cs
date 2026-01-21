@@ -25,7 +25,7 @@ namespace EcoCheck.Application.Services
                 throw new BadRequestException("Uno o más campos están vacíos");
             }
 
-            var usuario = await _repository.GetUserByNameAsync(dto.User) ?? throw new NotFoundException("No se ha encontrado el usuario con nombre" + dto.User);
+            var usuario = await _repository.GetUserByNameAsync(dto.User) ?? throw new UnauthorizedException("Credenciales inválidas");
             var success =await _repository.CheckUserAsync(usuario,dto.Password);
 
             if (!success) throw new UnauthorizedException("Credenciales inválidas");
