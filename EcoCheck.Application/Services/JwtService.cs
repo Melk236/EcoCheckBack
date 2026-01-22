@@ -25,7 +25,7 @@ namespace EcoCheck.Application.Services
              new Claim(ClaimTypes.Name,user.UserName)
             };
             
-            //La clave secreta se convierte a 
+            //La clave secreta se convierte a bytes
             var keyBytes = Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt")["Key"]);
             var creds=new SigningCredentials(new SymmetricSecurityKey(keyBytes),SecurityAlgorithms.HmacSha256);
 

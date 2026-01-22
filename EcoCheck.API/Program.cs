@@ -79,6 +79,7 @@ builder.Services.AddScoped<IPuntuacionService,PuntuacionService>();
 builder.Services.AddScoped<ICertificacionService,CertificacionService>();
 builder.Services.AddScoped<IEmpresaCertificacionService,EmpresaCertificacionService>();
 builder.Services.AddScoped<IAuthService,AuthService>();
+builder.Services.AddScoped<IProfileService,ProfileService>();
 builder.Services.AddSingleton<IJwtService, JwtService>();
 
 //Repositorios
