@@ -1,5 +1,6 @@
 ﻿using EcoCheck.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 using System.Text.Json;
 
 namespace EcoCheck.Api.Controllers
@@ -20,20 +21,30 @@ namespace EcoCheck.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Traducir([FromBody] TraduccionRequest req)
         {
-            var content = new FormUrlEncodedContent(new[]
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://api-free.deepl.com/v1/translate");
+            Console.WriteLine(_apiKey);
+            // Agregar header de autenticación
+            request.Headers.Add("Authorization", $"DeepL-Auth-Key {_apiKey}");
+
+            // Body en formato JSON
+            var body = new
             {
-            new KeyValuePair<string,string>("auth_key", _apiKey),
-            new KeyValuePair<string,string>("text", req.Texto),
-            new KeyValuePair<string,string>("target_lang", "ES")
-        });
+                text = new[] { req.Texto },
+                target_lang = "ES"
+            };
 
-            var response = await _http.PostAsync("https://api-free.deepl.com/v2/translate", content);
+            request.Content = new StringContent(
+                JsonSerializer.Serialize(body),
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            var response = await _http.SendAsync(request);
             var raw = await response.Content.ReadAsStringAsync();
-
             var json = JsonSerializer.Deserialize<JsonElement>(raw);
+            Console.WriteLine(json);
             var result = json.GetProperty("translations")[0].GetProperty("text").GetString();
-
-            return Ok(new {texto=result});
+            return Ok(new { texto = result });
         }
     }
 
