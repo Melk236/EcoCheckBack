@@ -21,7 +21,6 @@ namespace EcoCheck.Api.Controllers
         public async Task<IActionResult> GetAllMateriales()
         {
             var materiales = await _materialService.GetAllMaterial();
-
             return Ok(materiales);
         }
 
@@ -29,8 +28,7 @@ namespace EcoCheck.Api.Controllers
         public async Task<IActionResult> GetMaterialesByProductoId(int id)
         {
             var materiales = await _materialService.GetMaterialById(id);
-
-            return Ok(materiales);  
+            return Ok(materiales);
         }
 
         [HttpPost]
@@ -38,15 +36,13 @@ namespace EcoCheck.Api.Controllers
         {
             var materiales = await _materialService.CrearMaterial(dto);
             var url = $"api/material/" + dto[0].ProductoId;
-
-            return Created(url,materiales);
+            return Created(url, materiales);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> ActualizarMateriales(int id, [FromBody] UpdateMaterialDto dto)
         {
             var material = await _materialService.ActualizarMaterial(id,dto);
-
             return Ok(material);
         }
 
@@ -54,7 +50,6 @@ namespace EcoCheck.Api.Controllers
         public async Task<IActionResult> BorrarMaterial(int id)
         {
             await _materialService.EliminarMaterial(id);
-
             return NoContent();
         }
     }

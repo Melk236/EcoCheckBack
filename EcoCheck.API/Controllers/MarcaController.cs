@@ -20,7 +20,6 @@ namespace EcoCheck.Api.Controllers
         public async Task<IActionResult> GetAllMarcas()
         {
             var marcas=await _marcaService.GetAllMarcas();
-
             return Ok(marcas);
         }
 
@@ -28,7 +27,6 @@ namespace EcoCheck.Api.Controllers
         public async Task<IActionResult> GetMarcaById(int id)
         {
             var marca=await _marcaService.GetMarcaById(id);
-
             return Ok(marca);
         }
 
@@ -37,7 +35,6 @@ namespace EcoCheck.Api.Controllers
         {
             var marca = await _marcaService.CrearMarca(dto);
             var url = $"/api/marca/{marca.Id}";
-            
             return Created(url, marca);
 
         }
@@ -46,7 +43,6 @@ namespace EcoCheck.Api.Controllers
         public async Task<IActionResult> ActualizarMarca(int id,UpdateMarcaDto dto)
         {
             var marca = await _marcaService.ActualizarMarca(id,dto);
-
             return Ok(marca);
         }
 
@@ -55,7 +51,6 @@ namespace EcoCheck.Api.Controllers
         public async Task<IActionResult> BorrarMarca(int id)
         {
             await _marcaService.BorrarMarca(id);
-
             return NoContent();
         }
     }

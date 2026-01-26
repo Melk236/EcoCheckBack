@@ -20,10 +20,8 @@ namespace EcoCheck.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProfile()
         {
-            Console.WriteLine("Hola mundo"+User.FindFirst(ClaimTypes.Name)?.Value);
-            Console.WriteLine(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+         
             var usuario = await _profileService.GetUserByToken(User.FindFirst(ClaimTypes.Name)?.Value);
-            
             return Ok(usuario);
         }
     }

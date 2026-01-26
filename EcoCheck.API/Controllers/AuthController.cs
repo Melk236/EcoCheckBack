@@ -22,7 +22,7 @@ namespace EcoCheck.API.Controllers
             var usuario=await _authService.CheckUser(dto);//No devolvemos nada ya que si algo es inválido se lanza una excepción
             var token = _jwtService.GenerateToken(usuario);
 
-            return Ok(new {token});
+            return Ok(new { token });
         }
 
         [HttpPost("Register")]

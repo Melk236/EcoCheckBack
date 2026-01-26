@@ -1,4 +1,4 @@
-﻿using EcoCheck.Application.Dtos.CreateDtos;
+using EcoCheck.Application.Dtos.CreateDtos;
 using EcoCheck.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,27 +26,21 @@ namespace EcoCheck.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var certificacion=await _certificacionService.GetCertificacionById(id);
-
+            var certificacion = await _certificacionService.GetCertificacionById(id);
             return Ok(certificacion);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateCertificacionDto[] dto)
         {
-
             var certficaciones = await _certificacionService.CreateCerticacion(dto);
-
             return Created(string.Empty, dto);
-
-
         }
-        [HttpDelete("{id}")]
 
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await _certificacionService.DeleteCertificacion(id);
-
             return NoContent();
         }
     }

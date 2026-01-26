@@ -20,7 +20,6 @@ namespace EcoCheck.Api.Controllers
         public async Task<IActionResult> GetAllPuntuaciones()
         {
             var puntuaciones = await _puntuacionService.GetAllPuntuaciones();
-
             return Ok(puntuaciones);
         }
 
@@ -28,7 +27,6 @@ namespace EcoCheck.Api.Controllers
         public async Task<IActionResult> GetPuntuacionById(int id)
         {
             var puntuacion=await _puntuacionService.GetPuntuacionById(id);
-
             return Ok(puntuacion);
         }
 
@@ -38,23 +36,19 @@ namespace EcoCheck.Api.Controllers
             var puntuacion = await _puntuacionService.CrearPuntuacion(dto);
             var url = $"api/puntuacion/{puntuacion.Id}";
             return Created(url, puntuacion);
-
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> ActualizarPuntuacion(int id, [FromBody] UpdatePuntuacionDto dto)
         {
             var puntuacion = await _puntuacionService.ActualizarPuntuacion(id,dto);
-
             return Ok(puntuacion);
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> ElminarPuntuacion(int id)
         {
             await _puntuacionService.EliminarPuntuacion(id);
-
             return NoContent();
-
         }
     }
 }

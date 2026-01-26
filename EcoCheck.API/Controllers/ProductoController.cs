@@ -28,7 +28,6 @@ namespace EcoCheck.Api.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var producto = await _productoService.GetProductoById(id);
-
             return Ok(producto);
 
         }
@@ -39,15 +38,13 @@ namespace EcoCheck.Api.Controllers
             var producto=await _productoService.CreateProducto(dto);
             //La url del recurso creado
             var url = $"/api/producto/{producto.Id}";
-
-            return Created(url,producto);
+            return Created(url, producto);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> ActualizarProducto(int id, [FromBody] UpdateProductoDto dto)
         {
             var producto=await _productoService.UpdateProducto(id,dto);
-
             return Ok(producto);
         }
 
@@ -55,7 +52,6 @@ namespace EcoCheck.Api.Controllers
         public async Task<IActionResult> EliminarProducto(int id)
         {
             await _productoService.EliminarProducto(id);
-
             return NoContent();
         }
 
