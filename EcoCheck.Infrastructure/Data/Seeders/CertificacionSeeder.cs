@@ -1,4 +1,4 @@
-﻿using EcoCheck.Domain.Entities;
+using EcoCheck.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace EcoCheck.Infrastructure.Data.Seeders
@@ -47,7 +47,23 @@ namespace EcoCheck.Infrastructure.Data.Seeders
                 new Certificacion { Nombre = "Planet-Score", Descripcion = "Impacto Ambiental de Alimentos. Puntuación de impacto ambiental (agua, emisiones, biodiversidad) del producto." },
                 new Certificacion { Nombre = "Ecoetiquetado FSC/PEFC", Descripcion = "Papel y Cartón Sostenible. Materiales de packaging de fuentes forestales responsables certificadas." },
                 new Certificacion { Nombre = "Reducción 83% siniestralidad laboral", Descripcion = "Seguridad Laboral. Empresa ha reducido accidentes laborales en un 83% con políticas de prevención." },
-                new Certificacion { Nombre = "Sustainable Sourcing Verified", Descripcion = "Abastecimiento Sostenible. Verifica que proveedores cumplen criterios ambientales y sociales certificados." }
+                new Certificacion { Nombre = "Sustainable Sourcing Verified", Descripcion = "Abastecimiento Sostenible. Verifica que proveedores cumplen criterios ambientales y sociales certificados." },
+                new Certificacion { Nombre = "ISO 50001", Descripcion = "Sistema de Gestión Energética. Certifica que la empresa optimiza el uso energético y reduce el consumo." },
+                new Certificacion { Nombre = "SBTi (Science Based Targets initiative)", Descripcion = "Objetivos Basados en la Ciencia. Compromisos verificados de reducción de emisiones alineados con el Acuerdo de París." },
+                new Certificacion { Nombre = "CHEP Sustainability Certificate", Descripcion = "Certificación de Sostenibilidad CHEP. Verifica prácticas sostenibles en logística y gestión de palets." },
+                new Certificacion { Nombre = "Ecovadis Platinum", Descripcion = "Evaluación de Sostenibilidad Ecovadis. Nivel más alto en evaluación de prácticas ambientales, sociales y éticas." },
+                new Certificacion { Nombre = "AENOR Buen Gobierno Corporativo (G++)", Descripcion = "Buen Gobierno Corporativo. Certifica prácticas de transparencia, ética y buen gobierno empresarial." },
+                new Certificacion { Nombre = "CSRD aligned", Descripcion = "Corporate Sustainability Reporting Directive. Empresa alineada con directivas de reporte de sostenibilidad europeo." },
+                new Certificacion { Nombre = "EPD", Descripcion = "Environmental Product Declaration. Declaración ambiental de producto con análisis de ciclo de vida verificado." },
+                new Certificacion { Nombre = "Zero Waste to Landfill", Descripcion = "Cero Residuos a Vertedero. Certifica que la empresa evita enviar residuos a vertederos mediante reciclaje y reutilización." },
+                new Certificacion { Nombre = "RSPO", Descripcion = "Roundtable on Sustainable Palm Oil. Certifica aceite de palma producido de manera sostenible sin deforestación." },
+                new Certificacion { Nombre = "Cocoa Life", Descripcion = "Cacao Sostenible. Programa que promueve prácticas sostenibles en el cultivo de cacao." },
+                new Certificacion { Nombre = "Harmony wheat", Descripcion = "Trigo Sostenible Harmony. Certifica trigo cultivado con prácticas agrícolas sostenibles." },
+                new Certificacion { Nombre = "EU Ecolabel", Descripcion = "Etiqueta Ecológica Europea. Certifica productos con menor impacto ambiental en todo su ciclo de vida." },
+                new Certificacion { Nombre = "EcoVadis Gold", Descripcion = "Evaluación de Sostenibilidad Ecovadis. Nivel alto en evaluación de prácticas ambientales, sociales y éticas." },
+                new Certificacion { Nombre = "Alliance for Water Stewardship", Descripcion = "Administración del Agua. Certifica gestión sostenible y responsable de los recursos hídricos." },
+                new Certificacion { Nombre = "Organic", Descripcion = "Agricultura Orgánica. Certifica que los productos son cultivados sin pesticidas sintéticos, fertilizantes químicos ni organismos modificados genéticamente." },
+                new Certificacion { Nombre = "Integrated Production", Descripcion = "Producción Integrada. Certifica métodos agrícolas que combinan técnicas sostenibles con el uso controlado de recursos para minimizar el impacto ambiental." }
             };
             _context.Certificaciones.AddRange(certificaciones);
             await _context.SaveChangesAsync();

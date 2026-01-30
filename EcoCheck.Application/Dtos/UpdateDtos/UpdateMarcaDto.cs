@@ -1,4 +1,4 @@
-﻿namespace EcoCheck.Application.Dtos.UpdateDtos
+namespace EcoCheck.Application.Dtos.UpdateDtos
 {
     public class UpdateMarcaDto
     {
@@ -7,7 +7,6 @@
 
         public string PaisSede { get; set; }
         public string? SitioWeb { get; set; }
-        public string? Certificaciones { get; set; }
         public float PuntuacionSocial { get; set; }
         public string? Controversias { get; set; }
         

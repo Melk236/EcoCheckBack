@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EcoCheck.Domain.Entities
 {
@@ -11,6 +12,9 @@ namespace EcoCheck.Domain.Entities
         public float Valor { get; set; }
         public float ValorAmbiental { get; set; }
         public float ValorSocial { get; set; }
+
+        [ForeignKey("ProductoId")]
+        public Productos Producto { get; set; } 
         
 
     }
