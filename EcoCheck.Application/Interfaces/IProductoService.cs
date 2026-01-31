@@ -11,6 +11,7 @@ namespace EcoCheck.Application.Interfaces
         public Task<ProductoDto> GetProductoById(int id);
         public Task<ProductoDto> CreateProducto(CreateProductoDto dto);
         public Task<ProductoDto> UpdateProducto(int id, UpdateProductoDto dto);
+        public Task<List<ProductoDto>> GetProductosComparacion(string categoria,double nota);
         public Task EliminarProducto(int id);
     }
 }
