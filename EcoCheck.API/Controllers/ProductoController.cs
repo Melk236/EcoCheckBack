@@ -1,4 +1,5 @@
-﻿using EcoCheck.Application.Dtos.CreateDtos;
+﻿using EcoCheck.Application.Dtos;
+using EcoCheck.Application.Dtos.CreateDtos;
 using EcoCheck.Application.Dtos.UpdateDtos;
 using EcoCheck.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,15 @@ namespace EcoCheck.Api.Controllers
             return Ok(productos);
 
         }
+        [HttpGet("Comparativa")]
+        public async Task<IActionResult> GetProductosComparativa([FromQuery] string categoria,[FromQuery] double nota)
+        {
+            var productos = await _productoService.GetProductosComparacion(categoria, nota);
+
+            return Ok(productos);
         
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
