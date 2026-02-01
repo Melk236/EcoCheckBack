@@ -33,8 +33,8 @@ namespace EcoCheck.Application.Services
         //Obtenemos los productos de la misma categoría que tengan más nota que el producto seleccionado
         public async Task<List<ProductoDto>> GetProductosComparacion(string categoria,double nota)
         {
-            var productos = await _repository.GetAll().Where(x => x.Categoria == categoria && x.EcoScore > nota).ToListAsync();
-            var categor = new Array[5];
+            var productos = await _repository.GetAll().Where(x => x.Categoria == categoria && x.EcoScore > nota).Take(3).ToListAsync();
+            
             
             return _mapper.Map<List<ProductoDto>>(productos);
         }
