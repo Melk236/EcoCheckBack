@@ -25,7 +25,7 @@ namespace EcoCheck.Api.Controllers
 
         }
         [HttpGet("Comparativa")]
-        public async Task<IActionResult> GetProductosComparativa([FromQuery] string categoria,[FromQuery] double nota)
+        public async Task<IActionResult> GetProductosComparativa([FromQuery] string[] categoria,[FromQuery] float nota)
         {
             var productos = await _productoService.GetProductosComparacion(categoria, nota);
 

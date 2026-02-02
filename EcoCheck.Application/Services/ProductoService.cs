@@ -9,6 +9,7 @@ using EcoCheck.Application.Dtos.UpdateDtos;
 using EcoCheck.Application.Interfaces;
 using EcoCheck.Domain.Interfaces;
 
+
 namespace EcoCheck.Application.Services
 {
     public class ProductoService:IProductoService
@@ -31,10 +32,30 @@ namespace EcoCheck.Application.Services
         }
 
         //Obtenemos los productos de la misma categoría que tengan más nota que el producto seleccionado
-        public async Task<List<ProductoDto>> GetProductosComparacion(string categoria,double nota)
+        public async Task<List<ProductoDto>> GetProductosComparacion(string[] categoria,float nota)
         {
-            var productos = await _repository.GetAll().Where(x => x.Categoria == categoria && x.EcoScore > nota).Take(3).ToListAsync();
+            if (categoria.Length==0 || nota==0)
+            {
+                throw new BadRequestException("Uno o más campos inválidos");
+
+            }
+            var productos = new List<Productos>();   
+
+            foreach (string item in categoria)//Vamos comprobando de categoria en categoria buscando aquellas categorias que coincidan
+            {
+                var resultado = await _repository.GetAll().Where(x => x.Categoria.Contains(item) && x.EcoScore > nota + 0.0001f).Take(3).ToListAsync();
+
+                    
+                if(resultado.Any()) productos.AddRange(resultado);
+
+                productos=productos.Distinct().ToList();
+
+                if (productos.Count >= 3) break;     
+                
+               
+            }
             
+
             
             return _mapper.Map<List<ProductoDto>>(productos);
         }
