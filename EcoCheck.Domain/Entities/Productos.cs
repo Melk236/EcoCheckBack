@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EcoCheck.Domain.Entities
 {
-    public class Productos
+    public class Productos:IEquatable<Productos>
     {
         [Key]
         public int Id { get; set; }
@@ -20,6 +20,18 @@ namespace EcoCheck.Domain.Entities
         public float EcoScore { get; set; }
         public string ImagenUrl { get; set; }
         
-        public DateTime FechaActualizacion { get; set; } = DateTime.Now;    
+        public DateTime FechaActualizacion { get; set; } = DateTime.Now;
+
+        public bool Equals(Productos? other)
+        {
+            if (other == null) return false;
+
+            return Id == other.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
     }
 }
