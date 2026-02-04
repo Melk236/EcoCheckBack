@@ -86,11 +86,12 @@ builder.Services.AddScoped<IEmpresaCertificacionService,EmpresaCertificacionServ
 builder.Services.AddScoped<IAuthService,AuthService>();
 builder.Services.AddScoped<IProfileService,ProfileService>();
 builder.Services.AddSingleton<IJwtService, JwtService>();
+builder.Services.AddScoped<IUserService,UserService>();
 
 //Repositorios
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
-
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 //Inyección de dependencias Data Seeders
 builder.Services.AddTransient<MarcaSeeder>();
