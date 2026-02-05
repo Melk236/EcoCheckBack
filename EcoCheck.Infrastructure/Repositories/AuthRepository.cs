@@ -36,7 +36,7 @@ namespace EcoCheck.Infrastructure.Repositories
         public async Task<ApplicationUser> GetUserByNameAsync(string user)
         {
             var usuario = await _userManager.FindByNameAsync(user);
-
+            
             return usuario;
         }
     }

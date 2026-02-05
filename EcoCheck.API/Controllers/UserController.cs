@@ -34,6 +34,7 @@ namespace EcoCheck.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserDto dto)
         {
+            Console.WriteLine(id);
             var usuario=await _userService.UpdateUser(id, dto);
 
             return Ok(usuario);

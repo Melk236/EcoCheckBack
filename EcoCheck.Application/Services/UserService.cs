@@ -39,11 +39,11 @@ namespace EcoCheck.Application.Services
         public async Task<UserDto> UpdateUser(int id, UpdateUserDto user)
         {
             if (user.UserName == null) throw new BadRequestException("Uno o más campos son inválidos");
-
+            Console.WriteLine(user.Apellido);
             var usuario = await _userRepository.GetById(id);
 
             if (usuario == null) throw new NotFoundException("No se ha encontrado el usuario con el id " + usuario);
-
+            Console.WriteLine(usuario);
             _mapper.Map(user,usuario);
 
             await _userRepository.UpdateUser(usuario);

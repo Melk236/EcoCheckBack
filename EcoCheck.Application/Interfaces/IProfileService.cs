@@ -1,10 +1,10 @@
 ﻿
-using EcoCheck.Domain.Entities;
+using EcoCheck.Application.Dtos;
 
 namespace EcoCheck.Application.Interfaces
 {
     public interface IProfileService
     {
-        Task<ApplicationUser> GetUserByToken(string userName);
+        Task<UserDto> GetUserByToken(string userName);
     }
 }

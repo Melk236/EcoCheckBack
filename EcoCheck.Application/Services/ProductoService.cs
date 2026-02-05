@@ -48,10 +48,10 @@ namespace EcoCheck.Application.Services
                     
                 if(resultado.Any()) productos.AddRange(resultado);
 
-                productos= [.. productos.Distinct()];
+                productos= productos.Distinct().ToList();
 
-                if (productos.Count >= 3) break;     
-                
+                if (productos.Count >= 3) break;
+                Console.WriteLine(item);
                
             }
             
