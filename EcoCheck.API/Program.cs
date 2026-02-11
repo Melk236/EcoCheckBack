@@ -22,10 +22,10 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(
     ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection")
     )));
 
-// 1.2 Identity (después del DbContext)
+// 1.2 Identity (despuï¿½s del DbContext)
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
 {
-    // Configuración de contraseñas
+    // Configuraciï¿½n de contraseï¿½as
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 6;
     options.Password.RequireNonAlphanumeric = false;
@@ -75,7 +75,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddControllers();
 
-// Por esta línea corregida:
+// Por esta lï¿½nea corregida:
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IProductoService,ProductoService>();
 builder.Services.AddScoped<IMarcaService,MarcaService>();
@@ -93,10 +93,11 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-//Inyección de dependencias Data Seeders
-builder.Services.AddTransient<MarcaSeeder>();
-builder.Services.AddTransient<CertificacionSeeder>();
-builder.Services.AddTransient<EmpresaCertificacionSeeder>();
+//Inyecciï¿½n de dependencias Data Seeders
+    builder.Services.AddTransient<MarcaSeeder>();
+    builder.Services.AddTransient<CertificacionSeeder>();
+    builder.Services.AddTransient<EmpresaCertificacionSeeder>();
+    builder.Services.AddTransient<RolesSeeder>();
 
 // Registrar HttpClient
 builder.Services.AddHttpClient();
@@ -119,6 +120,7 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -129,10 +131,12 @@ using (var scope = app.Services.CreateScope())//Creamos los datos iniciales de l
     var marcaSeeder = scope.ServiceProvider.GetRequiredService<MarcaSeeder>();
     var certificacionSeeder = scope.ServiceProvider.GetRequiredService<CertificacionSeeder>();
     var empresaCertificacionSeeder = scope.ServiceProvider.GetRequiredService<EmpresaCertificacionSeeder>();
+    var rolesSeeder = scope.ServiceProvider.GetRequiredService<RolesSeeder>();
 
     await marcaSeeder.SeedMarcas();
     await certificacionSeeder.SeedCertificaciones();
     await empresaCertificacionSeeder.seedEmpresaCertificacion();
+    await rolesSeeder.SeedRoles();
 }
 
 app.Run();

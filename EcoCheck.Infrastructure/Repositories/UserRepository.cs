@@ -2,7 +2,7 @@
 
 using EcoCheck.Domain.Entities;
 using EcoCheck.Domain.Interfaces;
-using EcoCheck.Infrastructure.Data;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,6 +36,7 @@ namespace EcoCheck.Infrastructure.Repositories
             
           
         }
+        
 
         public async Task DeleteUser(ApplicationUser user)
         {

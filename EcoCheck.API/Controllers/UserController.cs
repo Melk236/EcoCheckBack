@@ -32,13 +32,21 @@ namespace EcoCheck.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromForm] UpdateUserDto dto, [FromForm] IFormFile archivo)
+        public async Task<IActionResult> UpdateUser(int id, [FromForm] UpdateUserDto dto)
         {
             Console.WriteLine(id);
-            var usuario=await _userService.UpdateUser(id, dto,archivo);
+            var usuario=await _userService.UpdateUser(id, dto);
 
             return Ok(usuario);
         }
+        [HttpPatch("{id}/ChangePassword")]
+        public async Task<IActionResult> ChangePassword(int id, [FromBody] ChangePasswordDto dto)
+        {
+               await _userService.ChangePasswordAsync(id, dto);
+
+               return Ok(new {message="Operación realizada correctamente"});
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {

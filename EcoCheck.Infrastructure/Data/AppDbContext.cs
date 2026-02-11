@@ -1,4 +1,4 @@
-﻿using EcoCheck.Domain.Entities;
+using EcoCheck.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +22,8 @@ namespace EcoCheck.Infrastructure.Data
         {
             base.OnModelCreating(builder);
             builder.Entity<ApplicationUser>().ToTable("Users");
+            builder.Entity<IdentityRole<int>>().ToTable("Roles");
+            builder.Entity<IdentityUserRole<int>>().ToTable("UsuarioRoles");
         }
     }
 }

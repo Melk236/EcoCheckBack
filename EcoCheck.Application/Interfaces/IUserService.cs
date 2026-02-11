@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using EcoCheck.Application.Dtos;
 using EcoCheck.Application.Dtos.UpdateDtos;
+using Microsoft.AspNetCore.Http;
 
 
 namespace EcoCheck.Application.Interfaces
@@ -13,8 +10,9 @@ namespace EcoCheck.Application.Interfaces
     {
         Task<List<UserDto>> GetAllUsers();
         Task<UserDto> GetUserById(int id);
-        Task<UserDto> UpdateUser(int id,UpdateUserDto user,Stream archivo);
+        Task<UserDto> UpdateUser(int id,UpdateUserDto user);
         Task DeleteUser(int id);
-        Task<string> ValidateFileAsync(Stream archivo);
+        Task<string> ValidateFileAsync(IFormFile archivo);
+        Task ChangePasswordAsync(int id,ChangePasswordDto dto);
     }
 }

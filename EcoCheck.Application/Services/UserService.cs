@@ -4,9 +4,11 @@ using AutoMapper;
 using EcoCheck.Application.Dtos;
 using EcoCheck.Application.Dtos.UpdateDtos;
 using EcoCheck.Application.Interfaces;
+using EcoCheck.Domain.Entities;
 using EcoCheck.Domain.Exceptions;
 using EcoCheck.Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace EcoCheck.Application.Services
@@ -15,10 +17,12 @@ namespace EcoCheck.Application.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public UserService(IUserRepository userRepository,IMapper mapper)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public UserService(IUserRepository userRepository,IMapper mapper,UserManager<ApplicationUser> userManager)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         public async Task<List<UserDto>> GetAllUsers()
@@ -37,11 +41,17 @@ namespace EcoCheck.Application.Services
                 : _mapper.Map<UserDto>(usuario);
         }
 
-        public async Task<UserDto> UpdateUser(int id, UpdateUserDto user,IFormFile archivo)
+        public async Task<UserDto> UpdateUser(int id, UpdateUserDto user)
         {
             //Comprobamos que el archivo es válido y devovemos la url que se guardará en la base de datos
-            var urlImagen = await ValidateFileAsync(archivo);
-            user.Imagen = urlImagen;
+            var urlImagen = "";
+
+            if (user.Imagen!=null && user.Imagen.Length>=0)
+            {
+                 urlImagen = await ValidateFileAsync(user.Imagen);
+            }
+                
+            
 
             if (string.IsNullOrEmpty(user.UserName) || 
                 string.IsNullOrEmpty(user.Nombre) ||
@@ -51,8 +61,16 @@ namespace EcoCheck.Application.Services
             var usuario = await _userRepository.GetById(id);
 
             if (usuario == null) throw new NotFoundException("No se ha encontrado el usuario con el id " + usuario);
-           
-            _mapper.Map(user,usuario);
+
+            
+            
+                _mapper.Map(user, usuario);
+
+            //Añdimos la url al usuario
+            if (!string.IsNullOrEmpty(urlImagen)) usuario.UrlImagen = urlImagen;
+
+
+
 
             await _userRepository.UpdateUser(usuario);
 
@@ -74,8 +92,15 @@ namespace EcoCheck.Application.Services
             if (archivo == null || archivo.Length == 0) throw new BadRequestException("Error, archivo de imagen vacío");
 
             var extensionesValidas = new string[] { ".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp" };
+            bool esValido = true;
+            foreach(var item in extensionesValidas)
+            {
+                if (archivo.FileName.Contains(item)) esValido = true;
+            }
 
-            if (!extensionesValidas.Contains(archivo.FileName)) throw new BadRequestException($"Formato no permitido. Solo se aceptan imágenes: {string.Join(", ", extensionesValidas)}");
+            if (!esValido) throw new BadRequestException($"Formato no permitido. Solo se aceptan imágenes: {string.Join(", ", extensionesValidas)}");
+
+
 
             string[] mimeTiposPermitidos = { "image/jpeg", "image/png", "image/gif", "image/webp", "image/bmp" };
 
@@ -97,6 +122,18 @@ namespace EcoCheck.Application.Services
             var rutaImagen = "uploads/" + nombreUnico;
 
             return rutaImagen;
+        }
+        //Método para cambiar la contraseña del usuario
+        public async Task ChangePasswordAsync(int id, ChangePasswordDto dto)
+        {
+            var usuario = await _userRepository.GetById(id) ?? throw new NotFoundException("No se ha encontrado el usuario con el id " + id);
+
+            //Si la nueva contraseña es la misma que la antigua nos salimos del método sin dar información adicional
+            if (dto.NewPassword == dto.Password) return; 
+            var identityResult = await _userManager.ChangePasswordAsync(usuario,dto.Password,dto.NewPassword);
+
+            if (!identityResult.Succeeded) throw new ForbiddenException("Usted, no está autorizado para realizar esta acción");
+
         }
     }
 }

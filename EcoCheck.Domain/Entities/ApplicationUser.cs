@@ -7,7 +7,7 @@ namespace EcoCheck.Domain.Entities
         
         public string? Nombre { get; set; }
         public string? Apellido { get; set; }
-        public string? Imagen { get; set; }
+        public string? UrlImagen { get; set; }
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
 
     }

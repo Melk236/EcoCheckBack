@@ -9,6 +9,7 @@ namespace EcoCheck.Application.Dtos
         public string Apellido { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
+        public string? UrlImagen { get;set; }
         public DateTime FechaRegistro { get; set; } 
 
     }

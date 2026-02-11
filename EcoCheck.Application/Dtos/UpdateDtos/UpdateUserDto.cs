@@ -1,5 +1,7 @@
 ﻿
 
+using Microsoft.AspNetCore.Http;
+
 namespace EcoCheck.Application.Dtos.UpdateDtos
 {
     public class UpdateUserDto
@@ -8,7 +10,7 @@ namespace EcoCheck.Application.Dtos.UpdateDtos
         public string Apellido { get; set; }
         public string UserName { get; set; }
         public string? Email { get; set; }
-        public string? Imagen { get; set; }
+        public IFormFile? Imagen { get; set; }
         
     }
 }
