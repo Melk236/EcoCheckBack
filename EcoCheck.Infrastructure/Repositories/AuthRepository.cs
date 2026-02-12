@@ -15,6 +15,7 @@ namespace EcoCheck.Infrastructure.Repositories
             _userManager = userManager;
         }
 
+
         public async Task<bool> CheckUserAsync(ApplicationUser user, string password)
         {
            
@@ -37,7 +38,16 @@ namespace EcoCheck.Infrastructure.Repositories
         {
             var usuario = await _userManager.FindByNameAsync(user);
             
+
             return usuario;
+        }
+
+        //Este metodo asigna el rol al usuario luego de crear el usuario    
+        public async Task<IdentityResult> AssignRoleToUser(ApplicationUser user, string role)
+        {
+            var result = await _userManager.AddToRoleAsync(user,role);
+
+            return result;
         }
     }
 }

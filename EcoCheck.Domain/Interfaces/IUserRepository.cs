@@ -10,7 +10,9 @@ namespace EcoCheck.Domain.Interfaces
         Task<ApplicationUser> GetById(int id);
         Task UpdateUser(ApplicationUser user);
         Task DeleteUser(ApplicationUser user);
-        
+        Task<string> GetRolesUserAsync(ApplicationUser user);
+
+
 
     }
 }

@@ -43,6 +43,14 @@ namespace EcoCheck.Infrastructure.Repositories
             await _userManager.DeleteAsync(user);
         }
 
+        //Este método nos devulve el rol del usuario(devuelve una lista por defecto, pero nuestra aplicación soo hay un rol por usuario)
+        public async Task<string> GetRolesUserAsync(ApplicationUser user)
+        {
+            var rol=await _userManager.GetRolesAsync(user);
+
+            return rol[0];//Devolvemos el unico rol que hay.
+
+        }
         
     }
 }

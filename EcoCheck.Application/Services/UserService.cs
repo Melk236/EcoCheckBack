@@ -28,17 +28,30 @@ namespace EcoCheck.Application.Services
         public async Task<List<UserDto>> GetAllUsers()
         {
             var usuarios= await _userRepository.GetAllUsers().ToListAsync();
+            var users = new List<UserDto>();
 
-            return _mapper.Map<List<UserDto>>(usuarios);    
+            foreach(var usuario in usuarios)
+            {
+                var rol = await _userRepository.GetRolesUserAsync(usuario);
+
+                users.Add(_mapper.Map<UserDto>(usuario));
+                users[users.Count() - 1].roleName = rol;
+            }
+
+            return users;    
         }
 
         public async Task<UserDto> GetUserById(int id)
         {
             var usuario=await _userRepository.GetById(id);
 
-            return usuario == null
-                ? throw new NotFoundException("No se ha encontrado el usuario con el id " + id)
-                : _mapper.Map<UserDto>(usuario);
+            if (usuario == null) throw new NotFoundException("No se ha encontrado el usuario con el id " + id);
+
+            var rol = await _userRepository.GetRolesUserAsync(usuario);
+            var users = _mapper.Map<UserDto>(usuario);
+
+            users.roleName = rol;
+            return users;
         }
 
         public async Task<UserDto> UpdateUser(int id, UpdateUserDto user)
@@ -63,18 +76,18 @@ namespace EcoCheck.Application.Services
             if (usuario == null) throw new NotFoundException("No se ha encontrado el usuario con el id " + usuario);
 
             
-            
-                _mapper.Map(user, usuario);
+            _mapper.Map(user, usuario);
 
             //Añdimos la url al usuario
             if (!string.IsNullOrEmpty(urlImagen)) usuario.UrlImagen = urlImagen;
 
-
-
-
             await _userRepository.UpdateUser(usuario);
 
-            return _mapper.Map<UserDto>(usuario);
+            var rol = await _userRepository.GetRolesUserAsync(usuario);
+            var users = _mapper.Map<UserDto>(usuario);
+            users.roleName = rol;
+
+            return users;
 
         }
         public async Task DeleteUser(int id)

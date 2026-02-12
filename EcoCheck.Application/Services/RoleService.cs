@@ -1,7 +1,4 @@
 ﻿
-
-
-
 using AutoMapper;
 using EcoCheck.Application.Dtos;
 using EcoCheck.Application.Dtos.CreateDtos;
@@ -46,7 +43,7 @@ namespace EcoCheck.Application.Services
         }
         public async Task<RolDto> CreateRoleAsync(CreateRolDto role)
         {
-            if(string.IsNullOrEmpty(role.Name)) throw new BadRequestException("El cambo nombre del rol está vacío");
+            if(string.IsNullOrEmpty(role.Name)) throw new BadRequestException("El campo nombre del rol está vacío");
 
             var rol=_mapper.Map<IdentityRole<int>>(role);
             var result = await _rolRepository.CreateRoleAsync(rol);

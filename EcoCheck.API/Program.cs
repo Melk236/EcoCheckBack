@@ -75,7 +75,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddControllers();
 
-// Por esta l�nea corregida:
+// Servicios:
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IProductoService,ProductoService>();
 builder.Services.AddScoped<IMarcaService,MarcaService>();
@@ -87,13 +87,15 @@ builder.Services.AddScoped<IAuthService,AuthService>();
 builder.Services.AddScoped<IProfileService,ProfileService>();
 builder.Services.AddSingleton<IJwtService, JwtService>();
 builder.Services.AddScoped<IUserService,UserService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 
 //Repositorios
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRolesRepository, RolesRepository>();
 
-//Inyecci�n de dependencias Data Seeders
+//Inyección de dependencias Data Seeders
     builder.Services.AddTransient<MarcaSeeder>();
     builder.Services.AddTransient<CertificacionSeeder>();
     builder.Services.AddTransient<EmpresaCertificacionSeeder>();

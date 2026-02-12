@@ -10,11 +10,13 @@ namespace EcoCheck.Application.Services
     public class ProfileService : IProfileService
     {
         private IAuthRepository _repository;
+        private IUserRepository _userRepository;
         private IMapper _mapper;
-        public ProfileService(IAuthRepository repository, IMapper mapper)
+        public ProfileService(IAuthRepository repository, IMapper mapper,IUserRepository userRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _userRepository = userRepository;
         }
 
         public async Task<UserDto> GetUserByToken(string userName)
@@ -24,7 +26,12 @@ namespace EcoCheck.Application.Services
 
             if (usuario == null) throw new NotFoundException("Error, no se ha podido identificar al usuario con los claims proporcionados");
 
-            return _mapper.Map<UserDto>(usuario);           
+            var rol = await _userRepository.GetRolesUserAsync(usuario);
+
+            var user = _mapper.Map<UserDto>(usuario);
+            user.roleName = rol;
+
+            return user;           
         }
     }
 }

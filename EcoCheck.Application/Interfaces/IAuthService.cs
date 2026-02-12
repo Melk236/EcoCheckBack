@@ -9,6 +9,6 @@ namespace EcoCheck.Application.Interfaces
     {
         public Task<ApplicationUser> CheckUser(LoginDto dto);
         public Task<ApplicationUser> CreateUser(LoginDto dto);
-        
+        public Task AssignRoleToUserAsync(ApplicationUser user, string role);
     }
 }
