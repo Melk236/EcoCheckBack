@@ -17,12 +17,13 @@ namespace EcoCheck.Application.Services
             _configuration = configuration;
         }
 
-        public string GenerateToken(ApplicationUser user)
+        public string GenerateToken(ApplicationUser user,string rol)
         {
             var claims = new List<Claim>
             {
              new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
-             new Claim(ClaimTypes.Name,user.UserName)
+             new Claim(ClaimTypes.Name,user.UserName),
+             new Claim(ClaimTypes.Role,rol)
             };
             
             //La clave secreta se convierte a bytes

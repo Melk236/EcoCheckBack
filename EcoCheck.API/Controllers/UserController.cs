@@ -1,6 +1,7 @@
 ﻿using EcoCheck.Application.Dtos;
 using EcoCheck.Application.Dtos.UpdateDtos;
 using EcoCheck.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcoCheck.API.Controllers
@@ -17,6 +18,7 @@ namespace EcoCheck.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> GetAll()
         {
             var usuarios = await _userService.GetAllUsers();
@@ -24,6 +26,7 @@ namespace EcoCheck.API.Controllers
             return Ok(usuarios);
         }
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUserById(int id)
         {
             var usuario = await _userService.GetUserById(id);
@@ -32,6 +35,7 @@ namespace EcoCheck.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateUser(int id, [FromForm] UpdateUserDto dto)
         {
             Console.WriteLine(id);
@@ -40,6 +44,7 @@ namespace EcoCheck.API.Controllers
             return Ok(usuario);
         }
         [HttpPatch("{id}/ChangePassword")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangePassword(int id, [FromBody] ChangePasswordDto dto)
         {
                await _userService.ChangePasswordAsync(id, dto);
@@ -48,6 +53,7 @@ namespace EcoCheck.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             await _userService.DeleteUser(id);

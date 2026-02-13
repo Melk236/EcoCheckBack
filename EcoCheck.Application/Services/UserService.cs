@@ -47,7 +47,7 @@ namespace EcoCheck.Application.Services
 
             if (usuario == null) throw new NotFoundException("No se ha encontrado el usuario con el id " + id);
 
-            var rol = await _userRepository.GetRolesUserAsync(usuario);
+            var rol = await GetRoleByUserAsync(usuario);
             var users = _mapper.Map<UserDto>(usuario);
 
             users.roleName = rol;
@@ -83,7 +83,7 @@ namespace EcoCheck.Application.Services
 
             await _userRepository.UpdateUser(usuario);
 
-            var rol = await _userRepository.GetRolesUserAsync(usuario);
+            var rol = await GetRoleByUserAsync(usuario);
             var users = _mapper.Map<UserDto>(usuario);
             users.roleName = rol;
 
@@ -147,6 +147,11 @@ namespace EcoCheck.Application.Services
 
             if (!identityResult.Succeeded) throw new ForbiddenException("Usted, no está autorizado para realizar esta acción");
 
+        }
+
+        public async Task<string> GetRoleByUserAsync(ApplicationUser user)
+        {
+            return await _userRepository.GetRolesUserAsync(user);
         }
     }
 }

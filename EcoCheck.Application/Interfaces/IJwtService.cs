@@ -6,7 +6,7 @@ namespace EcoCheck.Application.Interfaces
 {
    public interface IJwtService
     {
-        public string GenerateToken(ApplicationUser user);
+        public string GenerateToken(ApplicationUser user,string rol);
 
     }
 }
