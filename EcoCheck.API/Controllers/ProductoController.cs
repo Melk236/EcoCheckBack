@@ -1,4 +1,5 @@
-﻿using EcoCheck.Application.Dtos;
+using EcoCheck.API.Middleware;
+using EcoCheck.Application.Dtos;
 using EcoCheck.Application.Dtos.CreateDtos;
 using EcoCheck.Application.Dtos.UpdateDtos;
 using EcoCheck.Application.Interfaces;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EcoCheck.Api.Controllers
 {
     [ApiController]
+    [RateLimit(100, 60)]
     [Route("api/[controller]")]
     public class ProductoController : ControllerBase
     {
@@ -45,7 +47,6 @@ namespace EcoCheck.Api.Controllers
         public async Task<IActionResult> CrearProducto([FromBody] CreateProductoDto dto)
         {
             var producto=await _productoService.CreateProducto(dto);
-            //La url del recurso creado
             var url = $"/api/producto/{producto.Id}";
             return Created(url, producto);
         }

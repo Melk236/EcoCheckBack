@@ -1,4 +1,5 @@
-﻿using EcoCheck.Application.Dtos;
+using EcoCheck.API.Middleware;
+using EcoCheck.Application.Dtos;
 using EcoCheck.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,9 +20,10 @@ namespace EcoCheck.API.Controllers
         }
 
         [HttpPost("login")]
+        [RateLimit(10, 60)]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
-            var usuario=await _authService.CheckUser(dto);//No devolvemos nada ya que si algo es inválido se lanza una excepción
+            var usuario=await _authService.CheckUser(dto);
             var rol = await _userService.GetRoleByUserAsync(usuario);
 
             var token = _jwtService.GenerateToken(usuario,rol);
@@ -30,6 +32,7 @@ namespace EcoCheck.API.Controllers
         }
 
         [HttpPost("Register")]
+        [RateLimit(5, 300)]
         public async Task<IActionResult> Register([FromBody] LoginDto dto)
         {
             var usuario= await _authService.CreateUser(dto);

@@ -1,4 +1,5 @@
-﻿using EcoCheck.Application.Dtos.CreateDtos;
+using EcoCheck.API.Middleware;
+using EcoCheck.Application.Dtos.CreateDtos;
 using EcoCheck.Application.Interfaces;
 using EcoCheck.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EcoCheck.API.Controllers
 {
     [ApiController]
+    [RateLimit(60, 60)]
     [Route("api/[controller]")]
     public class RolesController:ControllerBase
     {

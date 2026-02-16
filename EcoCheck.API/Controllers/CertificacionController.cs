@@ -1,3 +1,4 @@
+using EcoCheck.API.Middleware;
 using EcoCheck.Application.Dtos.CreateDtos;
 using EcoCheck.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EcoCheck.Api.Controllers
 {
     [ApiController]
+    [RateLimit(100, 60)]
     [Route("api/[controller]")]
     public class CertificacionController:ControllerBase
     {
