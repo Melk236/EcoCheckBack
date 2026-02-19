@@ -1,13 +1,13 @@
-using EcoCheck.API.Middleware;
+
 using EcoCheck.Application.Dtos.CreateDtos;
 using EcoCheck.Application.Dtos.UpdateDtos;
 using EcoCheck.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcoCheck.Api.Controllers
 {
     [ApiController]
-    [RateLimit(100, 60)]
     [Route("api/[controller]")]
     public class PuntuacionController : ControllerBase
     {
@@ -19,6 +19,7 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllPuntuaciones()
         {
             var puntuaciones = await _puntuacionService.GetAllPuntuaciones();
@@ -26,6 +27,7 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetPuntuacionById(int id)
         {
             var puntuacion=await _puntuacionService.GetPuntuacionById(id);
@@ -33,6 +35,7 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CrearPuntuacion([FromBody] CreatePuntuacionDto dto)
         {
             var puntuacion = await _puntuacionService.CrearPuntuacion(dto);
@@ -41,12 +44,14 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> ActualizarPuntuacion(int id, [FromBody] UpdatePuntuacionDto dto)
         {
             var puntuacion = await _puntuacionService.ActualizarPuntuacion(id,dto);
             return Ok(puntuacion);
         }
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> ElminarPuntuacion(int id)
         {
             await _puntuacionService.EliminarPuntuacion(id);

@@ -85,21 +85,24 @@ builder.Services.AddScoped<ICertificacionService,CertificacionService>();
 builder.Services.AddScoped<IEmpresaCertificacionService,EmpresaCertificacionService>();
 builder.Services.AddScoped<IAuthService,AuthService>();
 builder.Services.AddScoped<IProfileService,ProfileService>();
-builder.Services.AddSingleton<IJwtService, JwtService>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IUserService,UserService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
+
 
 //Repositorios
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRolesRepository, RolesRepository>();
+builder.Services.AddScoped<IRefreshTokenRepository,RefreshTokenRepository>();
 
 //Inyección de dependencias Data Seeders
     builder.Services.AddTransient<MarcaSeeder>();
     builder.Services.AddTransient<CertificacionSeeder>();
     builder.Services.AddTransient<EmpresaCertificacionSeeder>();
     builder.Services.AddTransient<RolesSeeder>();
+
 
 // Registrar HttpClient
 builder.Services.AddHttpClient();

@@ -1,14 +1,13 @@
-using EcoCheck.API.Middleware;
 using EcoCheck.Application.Dtos.CreateDtos;
 using EcoCheck.Application.Interfaces;
 using EcoCheck.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcoCheck.API.Controllers
 {
     [ApiController]
-    [RateLimit(60, 60)]
     [Route("api/[controller]")]
     public class RolesController:ControllerBase
     {
@@ -21,6 +20,7 @@ namespace EcoCheck.API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllRoles()
         {
             var roles = await _roleService.GetAllRoles();
@@ -29,6 +29,7 @@ namespace EcoCheck.API.Controllers
         }
 
         [HttpGet("{roleName}")]
+        [Authorize]
         public async Task<IActionResult> GetRolByName(string roleName)
         {
             var rol = await _roleService.GetRoleByName(roleName);
@@ -37,6 +38,7 @@ namespace EcoCheck.API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateRole([FromBody] CreateRolDto dto) 
         {
             var rol = await _roleService.CreateRoleAsync(dto);
@@ -45,6 +47,7 @@ namespace EcoCheck.API.Controllers
             return Created(url, rol);
         }
         [HttpDelete("{roleName}")]
+        [Authorize]
         public async Task<IActionResult> DeleteRole(string roleName)
         {
             await _roleService.DeleteRoleAsync(roleName);

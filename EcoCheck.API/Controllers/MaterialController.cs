@@ -1,14 +1,12 @@
-using EcoCheck.API.Middleware;
 using EcoCheck.Application.Dtos.CreateDtos;
 using EcoCheck.Application.Dtos.UpdateDtos;
 using EcoCheck.Application.Interfaces;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcoCheck.Api.Controllers
 {
     [ApiController]
-    [RateLimit(100, 60)]
     [Route("api/[controller]")]
     public class MaterialController:ControllerBase
     {
@@ -20,6 +18,7 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllMateriales()
         {
             var materiales = await _materialService.GetAllMaterial();
@@ -27,6 +26,7 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetMaterialesByProductoId(int id)
         {
             var materiales = await _materialService.GetMaterialById(id);
@@ -34,6 +34,7 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CrearMateriales([FromBody] CreateMaterialDto[] dto)
         {
             var materiales = await _materialService.CrearMaterial(dto);
@@ -42,6 +43,7 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> ActualizarMateriales(int id, [FromBody] UpdateMaterialDto dto)
         {
             var material = await _materialService.ActualizarMaterial(id,dto);
@@ -49,6 +51,7 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> BorrarMaterial(int id)
         {
             await _materialService.EliminarMaterial(id);

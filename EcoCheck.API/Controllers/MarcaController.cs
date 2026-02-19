@@ -1,13 +1,12 @@
-using EcoCheck.API.Middleware;
 using EcoCheck.Application.Dtos.CreateDtos;
 using EcoCheck.Application.Dtos.UpdateDtos;
 using EcoCheck.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcoCheck.Api.Controllers
 {
     [ApiController]
-    [RateLimit(100, 60)]
     [Route("api/[controller]")]
     public class MarcaController:ControllerBase
     {
@@ -19,6 +18,7 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllMarcas()
         {
             var marcas=await _marcaService.GetAllMarcas();
@@ -26,6 +26,7 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetMarcaById(int id)
         {
             var marca=await _marcaService.GetMarcaById(id);
@@ -33,6 +34,7 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CrearMarca([FromBody] CreateMarcaDto dto)
         {
             var marca = await _marcaService.CrearMarca(dto);
@@ -42,6 +44,7 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> ActualizarMarca(int id,UpdateMarcaDto dto)
         {
             var marca = await _marcaService.ActualizarMarca(id,dto);
@@ -49,7 +52,7 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-
+        [Authorize]
         public async Task<IActionResult> BorrarMarca(int id)
         {
             await _marcaService.BorrarMarca(id);

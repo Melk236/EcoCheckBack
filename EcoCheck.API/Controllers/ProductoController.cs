@@ -1,14 +1,14 @@
-using EcoCheck.API.Middleware;
 using EcoCheck.Application.Dtos;
 using EcoCheck.Application.Dtos.CreateDtos;
 using EcoCheck.Application.Dtos.UpdateDtos;
 using EcoCheck.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcoCheck.Api.Controllers
 {
     [ApiController]
-    [RateLimit(100, 60)]
+   
     [Route("api/[controller]")]
     public class ProductoController : ControllerBase
     {
@@ -19,6 +19,7 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Get() {
 
             var productos = await _productoService.GetAllProductos();
@@ -27,6 +28,7 @@ namespace EcoCheck.Api.Controllers
 
         }
         [HttpGet("Comparativa")]
+        [Authorize]
         public async Task<IActionResult> GetProductosComparativa([FromQuery] string[] categoria,[FromQuery] float nota)
         {
             var productos = await _productoService.GetProductosComparacion(categoria, nota);
@@ -36,6 +38,7 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetById(int id)
         {
             var producto = await _productoService.GetProductoById(id);
@@ -44,6 +47,7 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CrearProducto([FromBody] CreateProductoDto dto)
         {
             var producto=await _productoService.CreateProducto(dto);
@@ -52,6 +56,7 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> ActualizarProducto(int id, [FromBody] UpdateProductoDto dto)
         {
             var producto=await _productoService.UpdateProducto(id,dto);
@@ -59,6 +64,7 @@ namespace EcoCheck.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> EliminarProducto(int id)
         {
             await _productoService.EliminarProducto(id);

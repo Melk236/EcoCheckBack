@@ -17,7 +17,7 @@ namespace EcoCheck.Infrastructure.Data
         public DbSet<Marca> Marcas { get; set; }
         public DbSet<Certificacion> Certificaciones { get; set; }
         public DbSet<EmpresaCertificacion> EmpresaCertificacion {  get; set; }
-
+        public DbSet<RefreshToken> RefreshToken { get;set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

@@ -1,4 +1,3 @@
-using EcoCheck.API.Middleware;
 using EcoCheck.Application.Dtos;
 using EcoCheck.Application.Dtos.UpdateDtos;
 using EcoCheck.Application.Interfaces;
@@ -7,8 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EcoCheck.API.Controllers
 {
-    [ApiController]
-    [RateLimit(60, 60)]
+    [ApiController]  
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {

@@ -1,17 +1,15 @@
- using EcoCheck.API.Middleware;
  using EcoCheck.Domain.Entities;
- using Microsoft.AspNetCore.Mvc;
- using System.Net.Http;
- using System.Collections.Generic;
-
- using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
  using Microsoft.Extensions.Configuration;
+ using System.Collections.Generic;
+ using System.Net.Http;
+ using System.Text.Json;
 
 
  namespace EcoCheck.Api.Controllers
  {
      [ApiController]
-     [RateLimit(100, 60)]
      [Route("api/[controller]")]
      public class TraduccionController : ControllerBase
      {
@@ -27,7 +25,8 @@
          }
 
          [HttpPost]
-         public async Task<IActionResult> Traducir([FromBody] TraduccionRequest req)
+         [Authorize]
+        public async Task<IActionResult> Traducir([FromBody] TraduccionRequest req)
          {
              var request = new HttpRequestMessage(HttpMethod.Post, _deeplEndpoint);
 
