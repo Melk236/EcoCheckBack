@@ -1,6 +1,7 @@
 using EcoCheck.Application.Dtos;
 using EcoCheck.Application.Interfaces;
 using EcoCheck.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcoCheck.API.Controllers
@@ -37,13 +38,13 @@ namespace EcoCheck.API.Controllers
                 Token = token
             };
 
-            // El refreshToken nuevo va en la cookie, no en el body
             Response.Cookies.Append("refreshToken", tokenResponse.RefreshToken, new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddDays(7)
+                Secure = false,
+                SameSite = SameSiteMode.Lax,
+                Expires = DateTime.UtcNow.AddDays(7),
+                Domain = "localhost"  // ← sin puerto, así la comparten ambos
             });
 
 
@@ -68,34 +69,45 @@ namespace EcoCheck.API.Controllers
                 RefreshToken=refreshToken
             };
 
-            // El refreshToken nuevo va en la cookie, no en el body
             Response.Cookies.Append("refreshToken", tokenResponse.RefreshToken, new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddDays(7)
+                Secure = false,
+                SameSite = SameSiteMode.Lax,
+                Expires = DateTime.UtcNow.AddDays(7),
+                Domain = "localhost"  // ← sin puerto, así la comparten ambos
             });
 
             return Ok(new {token = tokenResponse.Token });
         }
 
         [HttpPost("Refresh")]
+        [AllowAnonymous]
         public async Task<IActionResult> Refresh()
         {
             var refreshToken = Request.Cookies["refreshToken"];
+            
+            // Debug: ver todas las cookies que llegan
+            Console.WriteLine($"=== DEBUG REFRESH ===");
+            Console.WriteLine($"refreshToken cookie: {refreshToken}");
+            Console.WriteLine($"Total cookies: {Request.Cookies.Count}");
+            foreach (var cookie in Request.Cookies)
+            {
+                Console.WriteLine($"Cookie: {cookie.Key} = {cookie.Value}");
+            }
+            Console.WriteLine($"=====================");
 
-            if (refreshToken is null) return Unauthorized();
+            if (refreshToken is null) return Unauthorized(new { mensaje = "No se encontró la cookie refreshToken" });
 
             var tokenResponse = await _jwtService.RefreshAsync(refreshToken);
-            
-            // El refreshToken nuevo va en la cookie, no en el body
+
             Response.Cookies.Append("refreshToken", tokenResponse.RefreshToken, new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddDays(7)
+                Secure = false,
+                SameSite = SameSiteMode.Lax,
+                Expires = DateTime.UtcNow.AddDays(7),
+                Domain = "localhost"  // ← sin puerto, así la comparten ambos
             });
 
             return Ok(new { token=tokenResponse.Token });

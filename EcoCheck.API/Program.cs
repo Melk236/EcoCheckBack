@@ -34,6 +34,14 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
     
 }).AddEntityFrameworkStores<AppDbContext>();
 
+// Configurar Identity para API (sin cookies, solo JWT)
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = null;
+    options.LogoutPath = null;
+    options.AccessDeniedPath = null;
+});
+
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
@@ -69,7 +77,8 @@ builder.Services.AddAuthentication(options =>
             ValidateIssuerSigningKey = true,
             ValidIssuer = jwtSettings["Issuer"],
             ValidAudience = jwtSettings["Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(key)
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ClockSkew = TimeSpan.Zero
         };
     });
 
@@ -124,7 +133,7 @@ app.UseCors(MyAllowSpecificOrigins);
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-app.UseHttpsRedirection();
+ app.UseHttpsRedirection(); 
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
