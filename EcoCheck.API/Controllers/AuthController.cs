@@ -87,15 +87,7 @@ namespace EcoCheck.API.Controllers
         {
             var refreshToken = Request.Cookies["refreshToken"];
             
-            // Debug: ver todas las cookies que llegan
-            Console.WriteLine($"=== DEBUG REFRESH ===");
-            Console.WriteLine($"refreshToken cookie: {refreshToken}");
-            Console.WriteLine($"Total cookies: {Request.Cookies.Count}");
-            foreach (var cookie in Request.Cookies)
-            {
-                Console.WriteLine($"Cookie: {cookie.Key} = {cookie.Value}");
-            }
-            Console.WriteLine($"=====================");
+            
 
             if (refreshToken is null) return Unauthorized(new { mensaje = "No se encontró la cookie refreshToken" });
 

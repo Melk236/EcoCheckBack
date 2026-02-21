@@ -16,12 +16,12 @@ namespace EcoCheck.Application.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IRefreshTokenRepository _repository;
-        private readonly IUserService _userService;
-        public JwtService(IConfiguration configuration,IRefreshTokenRepository repository,IUserService userService)
+        private readonly IUserRepository _userRepository;
+        public JwtService(IConfiguration configuration,IRefreshTokenRepository repository,IUserRepository userRepository)
         {
             _configuration = configuration;
             _repository = repository;
-            _userService = userService;
+            _userRepository = userRepository;
         }
 
         
@@ -79,7 +79,8 @@ namespace EcoCheck.Application.Services
 
             //Creamos un nuevo refreshToken y token válidos
             var newRefreshToken= await GenerateRefreshTokenAsync(refreshToken.UserId);
-            var rol = await _userService.GetRoleByUserAsync(refreshToken.User);
+            var usuario = await _userRepository.GetById(refreshToken.UserId);
+            var rol = await _userRepository.GetRolesUserAsync(usuario);
             var newToken = GenerateToken(refreshToken.User,rol);
 
             var responseToken = new TokenResponseDto
