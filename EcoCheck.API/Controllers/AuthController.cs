@@ -105,5 +105,18 @@ namespace EcoCheck.API.Controllers
             return Ok(new { token=tokenResponse.Token });
         }
 
+        [HttpPost("LogOut")]
+
+        public async Task<IActionResult> LogOut()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+
+            if (refreshToken is null) return Unauthorized(new { mensaje = "No se encontró la cookie refreshToken" });
+
+            await _jwtService.LogOutAsync(refreshToken);
+
+            return Ok();
+        }
+
     }
 }

@@ -9,7 +9,7 @@ namespace EcoCheck.Application.Interfaces
     {
         public string GenerateToken(ApplicationUser user,string rol);
         public Task<string> GenerateRefreshTokenAsync(int UserId);
-        public Task<TokenResponseDto> RefreshAsync(string refreshToken); 
-
+        public Task<TokenResponseDto> RefreshAsync(string refreshToken);
+        public Task LogOutAsync(string refreshToken);
     }
 }

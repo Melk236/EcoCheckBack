@@ -27,11 +27,20 @@ namespace EcoCheck.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<RefreshToken> GetRefreshTokenByUserId(string token)
+        
+
+        public async Task<RefreshToken> GetRefreshToken(string token)
         {
            var refreshToken=await _dbSet.FirstOrDefaultAsync(x=>x.Token == token);
 
             return refreshToken;
+        }
+
+        public async Task UpdateRefreshTokenAsync(RefreshToken token)
+        {
+            _dbSet.Update(token);
+            await _context.SaveChangesAsync();
+
         }
     }
 }

@@ -70,7 +70,7 @@ namespace EcoCheck.Application.Services
 
         public async Task<TokenResponseDto> RefreshAsync(string token)
         {
-            var refreshToken = await _repository.GetRefreshTokenByUserId(token);
+            var refreshToken = await _repository.GetRefreshToken(token);
             //Comprobamos que el refresh token es válido
             if (refreshToken is null || refreshToken.IsRevoked || refreshToken.ExpiresAt.CompareTo(DateTime.UtcNow) < 0) throw new UnauthorizedException("Operación inválida,vuelva a iniciar sesión");
 
@@ -90,6 +90,21 @@ namespace EcoCheck.Application.Services
             };
 
             return responseToken;
+        }
+
+        public async Task LogOutAsync(string refreshToken)
+        {
+            var token = await _repository.GetRefreshToken(refreshToken);
+
+            if (token is null) throw new NotFoundException("No se ha encontrado el refresh token especificado");
+
+            //Si encontramos el token en la DB lo revocamos(se le podria también cambiar la fecha de expiración)
+
+            token.IsRevoked = true;
+
+            await _repository.UpdateRefreshTokenAsync(token);
+
+
         }
     }
 }
