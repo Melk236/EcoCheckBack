@@ -12,6 +12,7 @@ namespace EcoCheck.Application.Dtos
         public string? Ingredientes { get; set; }    
         public float EcoScore { get; set; }
         public string ImagenUrl { get; set; }
+        public int UsuarioId { get; set; }
         public DateTime FechaActualizacion { get; set; }
     }
 }

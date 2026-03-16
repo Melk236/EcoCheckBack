@@ -14,7 +14,10 @@ namespace EcoCheck.Domain.Entities
         public Marca Marca { get; set; }    
         public string Categoria { get; set; }//Variable para comparar productos de la misma categoria
         public string PaisOrigen { get; set; }
+        public int UsuarioId { get; set; }
 
+        [ForeignKey("UsuarioId")]
+        public ApplicationUser applicationUser { get; set; }
         public string Descripcion { get; set; }
         public string Ingredientes { get; set; }
         public float EcoScore { get; set; }

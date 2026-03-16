@@ -9,6 +9,7 @@
         public string Descripcion { get; set; }
         public string Ingredientes { get; set; }
         public float EcoScore { get; set; }
+        public int UsuarioId { get; set; }
         public string ImagenUrl { get; set; }
     }
 }
