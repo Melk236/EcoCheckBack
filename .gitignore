@@ -85,3 +85,6 @@ yarn-error.log
 
 ## Secrets / Local config
 appsettings.json
+
+## Static web assets
+wwwroot/
