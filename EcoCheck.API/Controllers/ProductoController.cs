@@ -32,7 +32,7 @@ namespace EcoCheck.Api.Controllers
         public async Task<IActionResult> GetProductosComparativa([FromQuery] string[] categoria,[FromQuery] float nota)
         {
             var productos = await _productoService.GetProductosComparacion(categoria, nota);
-
+            
             return Ok(productos);
         
         }

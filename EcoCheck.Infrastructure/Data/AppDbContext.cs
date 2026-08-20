@@ -1,4 +1,5 @@
 using EcoCheck.Domain.Entities;
+using EcoCheck.Infrastructure.Interceptors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,11 @@ namespace EcoCheck.Infrastructure.Data
         public DbSet<Certificacion> Certificaciones { get; set; }
         public DbSet<EmpresaCertificacion> EmpresaCertificacion {  get; set; }
         public DbSet<RefreshToken> RefreshToken { get;set; }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.AddInterceptors(new MySqlPrimaryKeyInterceptor());
+        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

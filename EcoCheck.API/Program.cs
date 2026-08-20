@@ -43,13 +43,17 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
+var allowedOrigins = builder.Configuration
+    .GetSection("Cors:AllowedOrigins")
+    .Get<string[]>() ?? Array.Empty<string>();
+
 // 2. Registrar CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
         builder =>
         {
-            builder.WithOrigins("https://localhost:4200")
+            builder.WithOrigins(allowedOrigins)
                    .AllowAnyHeader()
                    .AllowAnyMethod()
                    .AllowCredentials();
@@ -100,18 +104,20 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+app.UseStaticFiles();
+app.UseRouting();
+app.UseSwagger();
+app.UseSwaggerUI();
+//}
 
 app.UseCors(MyAllowSpecificOrigins);
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
- app.UseHttpsRedirection(); 
-app.UseStaticFiles();
+ // app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -119,6 +125,8 @@ app.MapControllers();
 
 using (var scope = app.Services.CreateScope())//Creamos los datos iniciales de las tablas de la bd con los dataseeders correspondientes
 {
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+  // dbContext.Database.Migrate();
     var marcaSeeder = scope.ServiceProvider.GetRequiredService<MarcaSeeder>();
     var certificacionSeeder = scope.ServiceProvider.GetRequiredService<CertificacionSeeder>();
     var empresaCertificacionSeeder = scope.ServiceProvider.GetRequiredService<EmpresaCertificacionSeeder>();

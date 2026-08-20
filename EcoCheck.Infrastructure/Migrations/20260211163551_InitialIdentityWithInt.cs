@@ -81,7 +81,7 @@ namespace EcoCheck.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
+           /* migrationBuilder.DropForeignKey(
                 name: "FK_AspNetRoleClaims_Roles_RoleId",
                 table: "AspNetRoleClaims");
 
@@ -146,7 +146,7 @@ namespace EcoCheck.Infrastructure.Migrations
                 column: "UserId",
                 principalTable: "Users",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Cascade);*/
         }
     }
 }
