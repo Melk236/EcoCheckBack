@@ -22,6 +22,22 @@ namespace EcoCheck.API.Controllers
             
         }
 
+        private CookieOptions GetRefreshCookieOptions()
+        {
+            // Sin Domain: el navegador la guarda para el host de la API (ecocheck.runasp.net)
+            // Poner Domain="ecocheck-de69a.web.app" desde la API hace que el navegador la rechace
+            // Para cross-site (web.app -> runasp.net) se necesita SameSite=None + Secure=true
+            var isHttps = Request.IsHttps;
+            return new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = isHttps,
+                SameSite = isHttps ? SameSiteMode.None : SameSiteMode.Lax,
+                Expires = DateTime.UtcNow.AddDays(7),
+                Path = "/"
+            };
+        }
+
         [HttpPost("login")]
        
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
@@ -38,14 +54,7 @@ namespace EcoCheck.API.Controllers
                 Token = token
             };
 
-            Response.Cookies.Append("refreshToken", tokenResponse.RefreshToken, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = false,
-                SameSite = SameSiteMode.Lax,
-                Expires = DateTime.UtcNow.AddDays(7),
-                Domain = "localhost"  
-            });
+            Response.Cookies.Append("refreshToken", tokenResponse.RefreshToken, GetRefreshCookieOptions());
 
 
             return Ok(new { token=tokenResponse.Token });
@@ -69,14 +78,7 @@ namespace EcoCheck.API.Controllers
                 RefreshToken=refreshToken
             };
 
-            Response.Cookies.Append("refreshToken", tokenResponse.RefreshToken, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = false,
-                SameSite = SameSiteMode.Lax,
-                Expires = DateTime.UtcNow.AddDays(7),
-                Domain = "localhost"  // ← sin puerto, así la comparten ambos
-            });
+            Response.Cookies.Append("refreshToken", tokenResponse.RefreshToken, GetRefreshCookieOptions());
 
             return Ok(new {token = tokenResponse.Token });
         }
@@ -93,14 +95,7 @@ namespace EcoCheck.API.Controllers
 
             var tokenResponse = await _jwtService.RefreshAsync(refreshToken);
 
-            Response.Cookies.Append("refreshToken", tokenResponse.RefreshToken, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = false,
-                SameSite = SameSiteMode.Lax,
-                Expires = DateTime.UtcNow.AddDays(7),
-                Domain = "localhost"  // ← sin puerto, así la comparten ambos
-            });
+            Response.Cookies.Append("refreshToken", tokenResponse.RefreshToken, GetRefreshCookieOptions());
 
             return Ok(new { token=tokenResponse.Token });
         }
@@ -114,8 +109,9 @@ namespace EcoCheck.API.Controllers
             if (refreshToken is null) return Unauthorized(new { mensaje = "No se encontró la cookie refreshToken" });
 
             await _jwtService.LogOutAsync(refreshToken);
+            Response.Cookies.Delete("refreshToken", GetRefreshCookieOptions());
 
-            return Ok();
+            return Ok(new {message="LogOut correcto"});
         }
 
     }
